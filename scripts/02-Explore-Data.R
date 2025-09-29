@@ -34,17 +34,26 @@ gsheets_auth() #
 
 #---------------------------03 Example usages----------------------------------------
 ###### Example usages 1: read all sheets
-# for the (updated) 2022_SerengetiSpecies Database:
-# read the whole database into a list of dataframes
-SerengetiSpeciesDB <- read_gsdb("https://docs.google.com/spreadsheets/d/1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc")
+# for the (updated) 2022_SerengetiSpecies Database with this url
+browseURL("https://docs.google.com/spreadsheets/d/1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc")
+# the key is 1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc
+# you can use either the full URL or just the key to read the database
+# here we use the key
+SerengetiSpeciesDB <- read_gsdb("1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc")
 # the different sheets in the database are now tibbles in the list SerengetiSpeciesDB
 # for example the tibble DimBirdSpecies, you can access as 
 SerengetiSpeciesDB$DimBirdSpecies
+# while the plant species list is 
+SerengetiSpeciesDB$DimPlantSpecies
+# this way you keep the different tables that come from the same database together. 
+# the list is a full duplicate of your online database but in R 
 
 ##### Example usages 2):
-# alternatively you can also read a specific sheet into your global environment
-# that then becomes a dataframe
-DimMammalSpecies <- read_gsdb("https://docs.google.com/spreadsheets/d/1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc", 
-                          sheets = "DimMammalSpecies")
-# now DimMammalSpecies is a dataframe in your global environment
-# similarly as we would read it before from the published link with read_csv()
+# alternatively you can also read one or more specific sheets from the databadse into your global environment
+# if you  need only a subset of tables from that database
+read_gsdb("https://docs.google.com/spreadsheets/d/1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o69YiFx5lh7Uuqwc", 
+                          sheets = c("DimMammalSpecies","DimBirdSpecies"), separate=TRUE)
+# the two tables are now available as tibbles DimMammalSpecies and DimBirdSpecies in your global environment
+# similarly to as when we read them with read_csv("published_link_to_csv")
+DimMammalSpecies
+DimBirdSpecies
