@@ -57,3 +57,18 @@ read_gsdb("https://docs.google.com/spreadsheets/d/1DLWG_h1bBWi7Gf5zJGn6wdQx1x2o6
 # similarly to as when we read them with read_csv("published_link_to_csv")
 DimMammalSpecies
 DimBirdSpecies
+
+#--------------------------- how to read a large csv file directly from its link------------------------
+# for example when the file is so big that it does not fit in a googlesheets file
+# get the file ide from the shared link to the file in google drive 
+# in google drive rightclick, share, copy link
+# if the link is eg 
+# https://drive.google.com/file/d/18TRynGulu8xVjnPhNbKidqwmqfCHCt0L/view?usp=drive_link
+# then the file id is 
+file_id <- "18TRynGulu8xVjnPhNbKidqwmqfCHCt0L"
+# load reuired package
+library(googledrive)
+# download to a temp location
+tmp <- tempfile(fileext = ".csv")
+googledrive::drive_download(googledrive::as_id(file_id), path = tmp, overwrite = TRUE)
+fishdata <- read_csv(tmp)
